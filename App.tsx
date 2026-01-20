@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
-import Logo from './components/Logo';
-import BatteryIcon from './components/BatteryIcon';
-import { HungerLevel, StatusItem } from './types';
+import Logo from './components/Logo.tsx';
+import BatteryIcon from './components/BatteryIcon.tsx';
+import { HungerLevel, StatusItem } from './types.ts';
 
 const INITIAL_ITEMS: StatusItem[] = [
   { id: '1', level: HungerLevel.MEDIUM, segments: 3, colorType: 'orange' },
@@ -15,7 +15,7 @@ const App: React.FC = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-black py-8">
       {/* Mobile Frame - 390x844 */}
-      <div className="relative w-[390px] h-[844px] bg-[#0F0E11] rounded-[30px] overflow-hidden shadow-2xl flex flex-col">
+      <div className="relative w-[390px] h-[844px] bg-[#0F0E11] rounded-[30px] overflow-hidden shadow-2xl flex flex-col border border-white/5">
         
         {/* Status Bar */}
         <div className="px-8 pt-4 flex justify-between items-center z-10">
@@ -50,11 +50,10 @@ const App: React.FC = () => {
 
         {/* Main Card (HUNG) */}
         <div className="px-4 mt-12">
-          <div className="relative h-[46px] flex items-center bg-[#0C180C] rounded-[12px] border border-[#00C600]/40 overflow-hidden glow-green">
-             {/* Glowing border effect is handled by glow-green class */}
+          <div className="relative h-[46px] flex items-center bg-[#0C180C] rounded-[12px] border border-[#00C600]/60 overflow-hidden glow-green">
              <div className="ml-4 flex items-center space-x-3 w-full">
                 <BatteryIcon segments={4} colorType="red" />
-                <span className="text-white text-[14px] font-semibold tracking-wider uppercase">Hung</span>
+                <span className="text-white text-[14px] font-bold tracking-[0.1em] uppercase">Hung</span>
              </div>
           </div>
         </div>
@@ -65,7 +64,7 @@ const App: React.FC = () => {
             <div key={item.id} className="relative h-[46px] flex items-center bg-[#222328] rounded-[12px] overflow-hidden">
                <div className="ml-4 flex items-center space-x-3 w-full">
                   <BatteryIcon segments={item.segments} colorType={item.colorType} />
-                  <span className="text-[#CDCDCD] text-[14px] font-semibold tracking-wider uppercase">
+                  <span className="text-[#CDCDCD] text-[14px] font-bold tracking-[0.1em] uppercase">
                     {item.level}
                   </span>
                </div>
