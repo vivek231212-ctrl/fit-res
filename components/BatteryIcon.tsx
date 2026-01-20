@@ -7,73 +7,63 @@ interface BatteryIconProps {
 }
 
 const BatteryIcon: React.FC<BatteryIconProps> = ({ segments, colorType }) => {
-  const getSegmentGradients = (type: string) => {
+  const gradId = `grad-${colorType}-${segments}`;
+  
+  const getColors = (type: string) => {
     switch (type) {
-      case 'red':
-        return ['#AA0000', '#FF0000', '#D40000', '#FF2A2A', '#800000'];
-      case 'orange':
-        return ['#AA5200', '#FF8C00', '#D46E00', '#FF8C00', '#AA5200'];
-      case 'yellow':
-        return ['#AA8500', '#FFC400', '#D49400', '#FFC300', '#AA8500'];
-      default:
-        return ['#666', '#999', '#777', '#888', '#555'];
+      case 'red': return { start: '#AA0000', mid1: '#FF0000', mid2: '#D40000', mid3: '#FF2A2A', end: '#800000' };
+      case 'orange': return { start: '#AA5200', mid1: '#FF8C00', mid2: '#D46E00', mid3: '#FF8C00', end: '#AA5200' };
+      case 'yellow': return { start: '#AA8500', mid1: '#FFC400', mid2: '#D49400', mid3: '#FFC300', end: '#AA8500' };
+      default: return { start: '#666', mid1: '#999', mid2: '#777', mid3: '#888', end: '#555' };
     }
   };
 
-  const colors = getSegmentGradients(colorType);
-  const gradId = `grad-${colorType}-${segments}`;
+  const colors = getColors(colorType);
 
   return (
     <div className="relative w-[12.7px] h-[28.3px]">
-      <svg width="13" height="29" viewBox="0 0 13 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="13" height="29" viewBox="28 161 12.7172 28.367" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id={`${gradId}-segment`} x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor={colors[0]} />
-            <stop offset="21.5%" stopColor={colors[1]} />
-            <stop offset="55.6%" stopColor={colors[2]} />
-            <stop offset="76.7%" stopColor={colors[3]} />
-            <stop offset="100%" stopColor={colors[4]} />
+          <linearGradient id={`${gradId}-frame`} x1="28.2725" y1="178.013" x2="40.4447" y2="178.013" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#666666" />
+            <stop offset="0.23881" stopColor="#CCCCCC" />
+            <stop offset="0.50746" stopColor="#999999" />
+            <stop offset="0.73881" stopColor="#E6E6E6" />
+            <stop offset="1" stopColor="#808080" />
           </linearGradient>
-          <linearGradient id="frame-grad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#666666" />
-            <stop offset="23.8%" stopColor="#CCCCCC" />
-            <stop offset="50.7%" stopColor="#999999" />
-            <stop offset="73.8%" stopColor="#E6E6E6" />
-            <stop offset="100%" stopColor="#808080" />
+          <linearGradient id={`${gradId}-shine`} x1="28.2725" y1="178.013" x2="40.4447" y2="178.013" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#F2F2F2" />
+            <stop offset="0.23881" stopColor="#999999" />
+            <stop offset="0.50746" stopColor="#F2F2F2" />
+            <stop offset="0.73881" stopColor="#B3B3B3" />
+            <stop offset="1" stopColor="#F2F2F2" />
           </linearGradient>
-          <linearGradient id="frame-shine" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#F2F2F2" />
-            <stop offset="23.8%" stopColor="#999999" />
-            <stop offset="50.7%" stopColor="#F2F2F2" />
-            <stop offset="73.8%" stopColor="#B3B3B3" />
-            <stop offset="100%" stopColor="#F2F2F2" />
+          <linearGradient id={`${gradId}-segment`} x1="28.5481" y1="148.938" x2="39.9847" y2="148.938" gradientUnits="userSpaceOnUse">
+            <stop stopColor={colors.start} />
+            <stop offset="0.2159" stopColor={colors.mid1} />
+            <stop offset="0.55678" stopColor={colors.mid2} />
+            <stop offset="0.767" stopColor={colors.mid3} />
+            <stop offset="1" stopColor={colors.end} />
           </linearGradient>
         </defs>
-        
+
         {/* Cap */}
-        <path d="M8.1398 0H4.5771C4.2331 0 3.9543 0.279 3.9543 0.623V2.994C3.9543 3.338 4.2331 3.617 4.5771 3.617H8.1398C8.4838 3.617 8.7626 3.338 8.7626 2.994V0.623C8.7626 0.279 8.4838 0 8.1398 0Z" fill="url(#frame-grad)" />
+        <path d="M36.1398 161H32.5771C32.2331 161 31.9543 161.279 31.9543 161.623V163.994C31.9543 164.338 32.2331 164.617 32.5771 164.617H36.1398C36.4838 164.617 36.7626 164.338 36.7626 163.994V161.623C36.7626 161.279 36.4838 161 36.1398 161Z" fill="black" />
         
-        {/* Main Body Frame */}
-        <rect x="0" y="2.933" width="12.7" height="25.43" rx="0.947" fill="url(#frame-grad)" />
-        <rect x="0.252" y="3.186" width="12.2" height="24.93" rx="0.695" fill="url(#frame-shine)" strokeWidth="0.1" />
+        {/* Frame */}
+        <path opacity="0.97" d="M39.7695 163.933H28.9477C28.4243 163.933 28 164.357 28 164.881V188.42C28 188.943 28.4243 189.367 28.9477 189.367H39.7695C40.2929 189.367 40.7172 188.943 40.7172 188.42V164.881C40.7172 164.357 40.2929 163.933 39.7695 163.933Z" fill={`url(#${gradId}-frame)`} />
+        <path d="M28.9475 164.186C28.5575 164.186 28.2521 164.49 28.2521 164.88V188.42C28.2521 188.81 28.5578 189.116 28.9475 189.116H39.7692C40.159 189.116 40.4647 188.81 40.4647 188.42V164.88C40.4647 164.49 40.1593 164.186 39.7692 164.186H28.9475Z" fill={`url(#${gradId}-shine)`} />
 
-        {/* Segments (filling from bottom) */}
+        {/* Segments - Rendering from bottom up */}
         {Array.from({ length: 4 }).map((_, i) => {
-          const segmentIndex = 3 - i; // bottom is 3, top is 0
-          const isFilled = (4 - segmentIndex) <= segments;
+          const isFilled = (4 - i) <= segments;
           if (!isFilled) return null;
-
-          const yPos = 3.644 + (segmentIndex * 6.15);
+          
+          // SVG Y coordinates for segments: 164.6, 170.7, 177.0, 183.1
+          const yPositions = [183.154, 177.002, 170.796, 164.644];
+          // Fixed path template string syntax on line 65
           return (
-            <rect 
-              key={i}
-              x="0.473" 
-              y={yPos} 
-              width="11.76" 
-              height="5.19" 
-              rx="0.921" 
-              fill={`url(#${gradId}-segment)`} 
-            />
+            <path key={i} d={`M39.2895 ${yPositions[i]}H29.4214C28.898 ${yPositions[i]} 28.4738 ${yPositions[i] + 0.424} 28.4738 ${yPositions[i] + 0.947}V${yPositions[i] + 4.240}C28.4738 ${yPositions[i] + 4.764} 28.898 ${yPositions[i] + 5.188} 29.4214 ${yPositions[i] + 5.188}H39.2895C39.8129 ${yPositions[i] + 5.188} 40.2372 ${yPositions[i] + 4.764} 40.2372 ${yPositions[i] + 4.240}V${yPositions[i] + 0.947}C40.2372 ${yPositions[i] + 0.424} 39.8129 ${yPositions[i]} 39.2895 ${yPositions[i]}Z`} fill={`url(#${gradId}-segment)`} />
           );
         })}
       </svg>

@@ -48,18 +48,18 @@ const App: React.FC = () => {
           <Logo />
         </div>
 
-        {/* Main Card (HUNG) */}
-        <div className="px-4 mt-12">
-          <div className="relative h-[46px] flex items-center bg-[#0C180C] rounded-[12px] border border-[#00C600]/60 overflow-hidden glow-green">
+        {/* HIGH Card (Matches Card 1 in SVG: y=153.3 to 198.7, height=45.4) */}
+        <div className="px-4 mt-[53px]">
+          <div className="relative h-[46px] flex items-center bg-[#0C180C] rounded-[12px] border border-[#00C600] border-[0.6px] overflow-hidden glow-green">
              <div className="ml-4 flex items-center space-x-3 w-full">
                 <BatteryIcon segments={4} colorType="red" />
-                <span className="text-white text-[14px] font-bold tracking-[0.1em] uppercase">Hung</span>
+                <span className="text-white text-[14px] font-bold tracking-[0.1em] uppercase">High</span>
              </div>
           </div>
         </div>
 
-        {/* List Items */}
-        <div className="px-4 mt-3 space-y-3">
+        {/* List Items (Gap after Card 1 is 12.3px) */}
+        <div className="px-4 mt-[12.3px] space-y-[12px]">
           {items.map((item) => (
             <div key={item.id} className="relative h-[46px] flex items-center bg-[#222328] rounded-[12px] overflow-hidden">
                <div className="ml-4 flex items-center space-x-3 w-full">
@@ -73,7 +73,7 @@ const App: React.FC = () => {
         </div>
 
         {/* Home Indicator */}
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[140px] h-[5px] bg-white rounded-full"></div>
+        <div className="absolute bottom-[8px] left-1/2 -translate-x-1/2 w-[140px] h-[5px] bg-white rounded-full"></div>
 
       </div>
     </div>

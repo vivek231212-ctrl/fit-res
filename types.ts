@@ -1,6 +1,6 @@
 
 export enum HungerLevel {
-  HUNG = 'HUNG',
+  HIGH = 'HIGH',
   MEDIUM = 'MEDIUM',
   LOW = 'LOW'
 }
