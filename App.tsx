@@ -48,12 +48,12 @@ const App: React.FC = () => {
           <Logo />
         </div>
 
-        {/* HIGH Card (Matches Card 1 in SVG: y=153.3 to 198.7, height=45.4) */}
+        {/* HIGH Card (Matches Card 1 in SVG: y=153.3 to 198.7) */}
         <div className="px-4 mt-[53px]">
           <div className="relative h-[46px] flex items-center bg-[#0C180C] rounded-[12px] border border-[#00C600] border-[0.6px] overflow-hidden glow-green">
              <div className="ml-4 flex items-center space-x-3 w-full">
                 <BatteryIcon segments={4} colorType="red" />
-                <span className="text-white text-[14px] font-bold tracking-[0.1em] uppercase">High</span>
+                <span className="text-white text-[14px] font-bold tracking-[0.1em]">High</span>
              </div>
           </div>
         </div>
@@ -64,7 +64,7 @@ const App: React.FC = () => {
             <div key={item.id} className="relative h-[46px] flex items-center bg-[#222328] rounded-[12px] overflow-hidden">
                <div className="ml-4 flex items-center space-x-3 w-full">
                   <BatteryIcon segments={item.segments} colorType={item.colorType} />
-                  <span className="text-[#CDCDCD] text-[14px] font-bold tracking-[0.1em] uppercase">
+                  <span className="text-[#CDCDCD] text-[14px] font-bold tracking-[0.1em]">
                     {item.level}
                   </span>
                </div>

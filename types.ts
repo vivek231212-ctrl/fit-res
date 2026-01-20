@@ -1,8 +1,8 @@
 
 export enum HungerLevel {
-  HIGH = 'HIGH',
-  MEDIUM = 'MEDIUM',
-  LOW = 'LOW'
+  HIGH = 'High',
+  MEDIUM = 'Medium',
+  LOW = 'Low'
 }
 
 export interface StatusItem {
