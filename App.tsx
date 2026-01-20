@@ -5,6 +5,7 @@ import DetailBranding from './components/DetailBranding.tsx';
 import BatteryIcon from './components/BatteryIcon.tsx';
 import Cart from './components/Cart.tsx';
 import Menu from './components/Menu.tsx';
+import PizzaDetails from './components/PizzaDetails.tsx';
 import { HungerLevel, StatusItem } from './types.ts';
 
 const INITIAL_ITEMS: StatusItem[] = [
@@ -18,7 +19,7 @@ const App: React.FC = () => {
   const [isSplashing, setIsSplashing] = useState<boolean>(false);
   const [activeLevel, setActiveLevel] = useState<HungerLevel | null>(null);
   const [showCart, setShowCart] = useState<boolean>(false);
-  const [view, setView] = useState<'main' | 'menu'>('main');
+  const [view, setView] = useState<'main' | 'menu' | 'details'>('main');
 
   const handleCardClick = (level: HungerLevel) => {
     setActiveLevel(level);
@@ -38,14 +39,18 @@ const App: React.FC = () => {
     setActiveLevel(null);
   };
 
-  const handleMenuNavigate = (target: 'list' | 'splash' | 'cart') => {
-    setView('main');
-    if (target === 'list') {
-      closeCart();
-    } else if (target === 'splash') {
+  const handleMenuNavigate = (target: 'list' | 'splash' | 'cart' | 'details') => {
+    if (target === 'splash') {
+      setView('main');
       triggerSplash();
     } else if (target === 'cart') {
+      setView('main');
       setShowCart(true);
+    } else if (target === 'details') {
+      setView('details');
+    } else {
+      setView('main');
+      closeCart();
     }
   };
 
@@ -67,9 +72,9 @@ const App: React.FC = () => {
         {view === 'menu' ? (
           <Menu onNavigate={handleMenuNavigate} onClose={() => setView('main')} />
         ) : (
-          <>
+          <div className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden relative">
             {/* Status Bar */}
-            <div className="px-8 pt-4 flex justify-between items-center z-10">
+            <div className="px-8 pt-4 flex justify-between items-center z-10 sticky top-0 bg-[#0F0E11]">
               <div className="flex items-center space-x-1">
                 <span className="text-white text-[15px] font-semibold">19:02</span>
               </div>
@@ -91,53 +96,69 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            {/* Logo Section + Menu Toggle */}
-            <div className="px-8 pt-10 flex justify-between items-end">
-              <Logo />
-              <button 
-                onClick={() => setView('menu')}
-                className="mb-1 p-1 text-[#CDCDCD] hover:text-white transition-colors"
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <line x1="3" y1="12" x2="21" y2="12"></line>
-                  <line x1="3" y1="6" x2="21" y2="6"></line>
-                  <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-              </button>
-            </div>
-
-            {/* Dynamic Card List */}
-            <div className="px-4 mt-[53px] flex flex-col space-y-[12.3px]">
-              {items.map((item) => {
-                const isActive = activeLevel === item.level;
-                
-                return (
-                  <div 
-                    key={item.id} 
-                    onClick={() => handleCardClick(item.level)}
-                    className={`relative h-[46px] flex items-center rounded-[12px] overflow-hidden cursor-pointer transition-all duration-300 ${
-                      isActive 
-                        ? 'bg-[#0C180C] border border-[#00C600] border-[0.6px] glow-green' 
-                        : 'bg-[#222328]'
-                    }`}
+            {view === 'details' ? (
+              <div className="flex-1 animate-in slide-in-from-bottom duration-500">
+                <button 
+                  onClick={() => setView('menu')}
+                  className="absolute top-12 right-6 z-20 p-2 bg-black/20 rounded-full text-white"
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                  </svg>
+                </button>
+                <PizzaDetails />
+              </div>
+            ) : (
+              <>
+                {/* Logo Section + Menu Toggle */}
+                <div className="px-8 pt-10 flex justify-between items-end">
+                  <Logo />
+                  <button 
+                    onClick={() => setView('menu')}
+                    className="mb-1 p-1 text-[#CDCDCD] hover:text-white transition-colors"
                   >
-                    <div className="ml-4 flex items-center space-x-3 w-full">
-                      <BatteryIcon segments={item.segments} colorType={item.colorType} />
-                      <span className={`text-[14px] font-bold tracking-[0.1em] font-quicksand ${isActive ? 'text-white' : 'text-[#CDCDCD]'}`}>
-                        {item.level.toUpperCase()}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                      <line x1="3" y1="12" x2="21" y2="12"></line>
+                      <line x1="3" y1="6" x2="21" y2="6"></line>
+                      <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Dynamic Card List */}
+                <div className="px-4 mt-[53px] flex flex-col space-y-[12.3px]">
+                  {items.map((item) => {
+                    const isActive = activeLevel === item.level;
+                    
+                    return (
+                      <div 
+                        key={item.id} 
+                        onClick={() => handleCardClick(item.level)}
+                        className={`relative h-[46px] flex items-center rounded-[12px] overflow-hidden cursor-pointer transition-all duration-300 ${
+                          isActive 
+                            ? 'bg-[#0C180C] border border-[#00C600] border-[0.6px] glow-green' 
+                            : 'bg-[#222328]'
+                        }`}
+                      >
+                        <div className="ml-4 flex items-center space-x-3 w-full">
+                          <BatteryIcon segments={item.segments} colorType={item.colorType} />
+                          <span className={`text-[14px] font-bold tracking-[0.1em] font-quicksand ${isActive ? 'text-white' : 'text-[#CDCDCD]'}`}>
+                            {item.level.toUpperCase()}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
 
             {/* Home Indicator */}
-            <div className="absolute bottom-[8px] left-1/2 -translate-x-1/2 w-[140px] h-[5px] bg-white rounded-full"></div>
+            <div className="absolute bottom-[8px] left-1/2 -translate-x-1/2 w-[140px] h-[5px] bg-white rounded-full z-20"></div>
 
             {/* Cart Modal / Drawer */}
             {showCart && <Cart onClose={closeCart} />}
-          </>
+          </div>
         )}
 
       </div>
