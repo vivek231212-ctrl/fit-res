@@ -6,6 +6,7 @@ import BatteryIcon from './components/BatteryIcon.tsx';
 import Cart from './components/Cart.tsx';
 import Menu from './components/Menu.tsx';
 import PizzaDetails from './components/PizzaDetails.tsx';
+import Home from './components/Home.tsx';
 import { HungerLevel, StatusItem } from './types.ts';
 
 const INITIAL_ITEMS: StatusItem[] = [
@@ -19,7 +20,7 @@ const App: React.FC = () => {
   const [isSplashing, setIsSplashing] = useState<boolean>(false);
   const [activeLevel, setActiveLevel] = useState<HungerLevel | null>(null);
   const [showCart, setShowCart] = useState<boolean>(false);
-  const [view, setView] = useState<'main' | 'menu' | 'details'>('main');
+  const [view, setView] = useState<'main' | 'menu' | 'details' | 'home'>('home');
 
   const handleCardClick = (level: HungerLevel) => {
     setActiveLevel(level);
@@ -39,18 +40,19 @@ const App: React.FC = () => {
     setActiveLevel(null);
   };
 
-  const handleMenuNavigate = (target: 'list' | 'splash' | 'cart' | 'details') => {
+  const handleMenuNavigate = (target: 'list' | 'splash' | 'cart' | 'details' | 'home') => {
     if (target === 'splash') {
-      setView('main');
+      setView('home');
       triggerSplash();
     } else if (target === 'cart') {
-      setView('main');
+      setView('home');
       setShowCart(true);
     } else if (target === 'details') {
       setView('details');
-    } else {
+    } else if (target === 'list') {
       setView('main');
-      closeCart();
+    } else {
+      setView('home');
     }
   };
 
@@ -70,7 +72,7 @@ const App: React.FC = () => {
       <div className="relative w-[390px] h-[844px] bg-[#0F0E11] rounded-[30px] overflow-hidden shadow-2xl flex flex-col border border-white/5 transition-all duration-300">
         
         {view === 'menu' ? (
-          <Menu onNavigate={handleMenuNavigate} onClose={() => setView('main')} />
+          <Menu onNavigate={(v) => handleMenuNavigate(v as any)} onClose={() => setView('home')} />
         ) : (
           <div className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden relative">
             {/* Status Bar */}
@@ -97,10 +99,10 @@ const App: React.FC = () => {
             </div>
 
             {view === 'details' ? (
-              <div className="flex-1 animate-in slide-in-from-bottom duration-500">
+              <div className="flex-1 animate-in slide-in-from-bottom duration-500 min-h-[1577px]">
                 <button 
                   onClick={() => setView('menu')}
-                  className="absolute top-12 right-6 z-20 p-2 bg-black/20 rounded-full text-white"
+                  className="absolute top-12 right-6 z-20 p-2 bg-black/40 rounded-full text-white hover:bg-black/60 transition-colors"
                 >
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M18 6L6 18M6 6l12 12" />
@@ -108,9 +110,23 @@ const App: React.FC = () => {
                 </button>
                 <PizzaDetails />
               </div>
+            ) : view === 'home' ? (
+              <div className="flex-1 flex flex-col relative animate-in fade-in duration-700">
+                <button 
+                  onClick={() => setView('menu')}
+                  className="absolute top-2 right-4 z-20 p-2 text-[#CDCDCD] hover:text-white"
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                  </svg>
+                </button>
+                <Home />
+              </div>
             ) : (
               <>
-                {/* Logo Section + Menu Toggle */}
+                {/* Dashboard View (the old main list) */}
                 <div className="px-8 pt-10 flex justify-between items-end">
                   <Logo />
                   <button 
@@ -125,11 +141,9 @@ const App: React.FC = () => {
                   </button>
                 </div>
 
-                {/* Dynamic Card List */}
                 <div className="px-4 mt-[53px] flex flex-col space-y-[12.3px]">
                   {items.map((item) => {
                     const isActive = activeLevel === item.level;
-                    
                     return (
                       <div 
                         key={item.id} 
@@ -160,7 +174,6 @@ const App: React.FC = () => {
             {showCart && <Cart onClose={closeCart} />}
           </div>
         )}
-
       </div>
     </div>
   );
