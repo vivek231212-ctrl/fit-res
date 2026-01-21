@@ -68,16 +68,16 @@ const App: React.FC = () => {
   return (
     <div className="flex justify-center items-center h-[100dvh] w-full bg-black overflow-hidden">
       {/* Mobile Frame - Responsive Wrapper */}
-      <div className="relative w-full max-w-[390px] h-full max-h-[844px] bg-[#0F0E11] sm:rounded-[30px] overflow-hidden shadow-2xl flex flex-col transition-all duration-300">
+      <div className="relative w-full max-w-[390px] h-full max-h-[844px] bg-[#0F0E11] sm:rounded-[35px] overflow-hidden shadow-2xl flex flex-col transition-all duration-300">
         
         {view === 'menu' ? (
           <Menu onNavigate={(v) => handleMenuNavigate(v as any)} onClose={() => setView('home')} />
         ) : (
           <div className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden relative no-scrollbar">
-            {/* Status Bar - Sticky */}
-            <div className="px-8 pt-4 pb-2 flex justify-between items-center z-30 sticky top-0 bg-[#0F0E11]">
+            {/* Status Bar - Fixed Layout */}
+            <div className="w-full px-6 pt-4 pb-2 flex justify-between items-center z-30 sticky top-0 bg-[#0F0E11]">
               <div className="flex items-center space-x-1">
-                <span className="text-white text-[15px] font-semibold">19:02</span>
+                <span className="text-white text-[15px] font-semibold leading-none">19:02</span>
               </div>
               <div className="flex items-center space-x-1.5">
                 <svg width="17" height="11" viewBox="0 0 17 11" fill="none">
@@ -89,87 +89,47 @@ const App: React.FC = () => {
                 <svg width="16" height="12" viewBox="0 0 16 12" fill="white">
                   <path d="M8 12L0 4C2.5 1.5 5.5 0 8 0C10.5 0 13.5 1.5 16 4L8 12Z" />
                 </svg>
-                <svg width="25" height="12" viewBox="0 0 25 12" fill="none">
-                  <rect x="0.5" y="0.5" width="22" height="11" rx="2.5" stroke="white" strokeOpacity="0.4" />
+                <div className="relative w-[25px] h-[12px]">
+                  <rect x="0.5" y="0.5" width="22" height="11" rx="2.5" stroke="white" strokeOpacity="0.4" fill="none" />
                   <rect x="2" y="2" width="18" height="8" rx="1" fill="white" />
-                  <path d="M23 4C24 4.5 24.5 5.2 24.5 6C24.5 6.8 24 7.5 23 8" stroke="white" strokeOpacity="0.4" />
-                </svg>
+                </div>
               </div>
             </div>
 
             {view === 'details' ? (
               <div className="flex-1 animate-in slide-in-from-bottom duration-500 relative">
-                <button 
-                  onClick={() => setView('menu')}
-                  className="absolute top-4 right-6 z-40 p-2 bg-black/40 rounded-full text-white hover:bg-black/60 transition-colors"
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M18 6L6 18M6 6l12 12" />
-                  </svg>
-                </button>
                 <PizzaDetails />
               </div>
             ) : view === 'home' ? (
               <div className="flex-1 flex flex-col relative animate-in fade-in duration-700">
-                <button 
-                  onClick={() => setView('menu')}
-                  className="absolute top-[68px] right-6 z-20 p-2 text-[#CDCDCD] hover:text-white"
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                  </svg>
-                </button>
-                <Home />
+                <Home onMenuOpen={() => setView('menu')} />
               </div>
             ) : (
               <>
-                {/* Dashboard View */}
                 <div className="px-8 pt-10 flex justify-between items-end">
                   <Logo />
-                  <button 
-                    onClick={() => setView('menu')}
-                    className="mb-1 p-1 text-[#CDCDCD] hover:text-white transition-colors"
-                  >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                      <line x1="3" y1="12" x2="21" y2="12"></line>
-                      <line x1="3" y1="6" x2="21" y2="6"></line>
-                      <line x1="3" y1="18" x2="21" y2="18"></line>
-                    </svg>
+                  <button onClick={() => setView('menu')} className="mb-1 p-1 text-[#CDCDCD] hover:text-white">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
                   </button>
                 </div>
-
                 <div className="px-4 mt-[53px] flex flex-col space-y-[12.3px]">
-                  {items.map((item) => {
-                    const isActive = activeLevel === item.level;
-                    return (
-                      <div 
-                        key={item.id} 
-                        onClick={() => handleCardClick(item.level)}
-                        className={`relative h-[46px] flex items-center rounded-[12px] overflow-hidden cursor-pointer transition-all duration-300 ${
-                          isActive 
-                            ? 'bg-[#0C180C] border border-[#00C600] border-[0.6px] glow-green' 
-                            : 'bg-[#222328]'
-                        }`}
-                      >
-                        <div className="ml-4 flex items-center space-x-3 w-full">
-                          <BatteryIcon segments={item.segments} colorType={item.colorType} />
-                          <span className={`text-[14px] font-bold tracking-[0.1em] font-quicksand ${isActive ? 'text-white' : 'text-[#CDCDCD]'}`}>
-                            {item.level.toUpperCase()}
-                          </span>
-                        </div>
+                  {items.map((item) => (
+                    <div key={item.id} onClick={() => handleCardClick(item.level)} className={`relative h-[46px] flex items-center rounded-[12px] overflow-hidden cursor-pointer transition-all duration-300 ${activeLevel === item.level ? 'bg-[#0C180C] border border-[#00C600] border-[0.6px] glow-green' : 'bg-[#222328]'}`}>
+                      <div className="ml-4 flex items-center space-x-3 w-full">
+                        <BatteryIcon segments={item.segments} colorType={item.colorType} />
+                        <span className={`text-[14px] font-bold tracking-[0.1em] font-quicksand ${activeLevel === item.level ? 'text-white' : 'text-[#CDCDCD]'}`}>{item.level.toUpperCase()}</span>
                       </div>
-                    );
-                  })}
+                    </div>
+                  ))}
                 </div>
               </>
             )}
 
-            {/* Home Indicator - Sticky at bottom of frame */}
-            <div className="sticky bottom-[8px] mx-auto w-[140px] h-[5px] bg-white rounded-full z-50 mt-4 mb-2 flex-shrink-0"></div>
+            {/* Home Indicator - Fixed in place */}
+            <div className="mt-auto flex justify-center py-4 bg-transparent pointer-events-none">
+                <div className="w-[139px] h-[5px] bg-white rounded-[100px]"></div>
+            </div>
 
-            {/* Cart Modal / Drawer */}
             {showCart && <Cart onClose={closeCart} />}
           </div>
         )}
