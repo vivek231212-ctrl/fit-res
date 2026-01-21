@@ -58,8 +58,8 @@ const App: React.FC = () => {
 
   if (isSplashing) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-black py-8">
-        <div className="relative w-[390px] h-[844px] rounded-[30px] overflow-hidden shadow-2xl">
+      <div className="flex justify-center items-center h-screen bg-black">
+        <div className="relative w-full max-w-[390px] h-full max-h-[844px] overflow-hidden shadow-2xl">
           <DetailBranding />
         </div>
       </div>
@@ -67,16 +67,16 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-black py-8">
-      {/* Mobile Frame - 390x844 */}
-      <div className="relative w-[390px] h-[844px] bg-[#0F0E11] rounded-[30px] overflow-hidden shadow-2xl flex flex-col border border-white/5 transition-all duration-300">
+    <div className="flex justify-center items-center h-screen bg-black overflow-hidden">
+      {/* Mobile Frame - Responsive Wrapper */}
+      <div className="relative w-full max-w-[390px] h-full max-h-[844px] bg-[#0F0E11] sm:rounded-[30px] overflow-hidden shadow-2xl flex flex-col border-x border-white/5 transition-all duration-300">
         
         {view === 'menu' ? (
           <Menu onNavigate={(v) => handleMenuNavigate(v as any)} onClose={() => setView('home')} />
         ) : (
-          <div className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden relative">
-            {/* Status Bar */}
-            <div className="px-8 pt-4 flex justify-between items-center z-10 sticky top-0 bg-[#0F0E11]">
+          <div className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden relative no-scrollbar">
+            {/* Status Bar - Sticky */}
+            <div className="px-8 pt-4 pb-2 flex justify-between items-center z-30 sticky top-0 bg-[#0F0E11]">
               <div className="flex items-center space-x-1">
                 <span className="text-white text-[15px] font-semibold">19:02</span>
               </div>
@@ -99,10 +99,10 @@ const App: React.FC = () => {
             </div>
 
             {view === 'details' ? (
-              <div className="flex-1 animate-in slide-in-from-bottom duration-500 min-h-[1577px]">
+              <div className="flex-1 animate-in slide-in-from-bottom duration-500 relative">
                 <button 
                   onClick={() => setView('menu')}
-                  className="absolute top-12 right-6 z-20 p-2 bg-black/40 rounded-full text-white hover:bg-black/60 transition-colors"
+                  className="absolute top-8 right-6 z-40 p-2 bg-black/40 rounded-full text-white hover:bg-black/60 transition-colors"
                 >
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M18 6L6 18M6 6l12 12" />
@@ -114,7 +114,7 @@ const App: React.FC = () => {
               <div className="flex-1 flex flex-col relative animate-in fade-in duration-700">
                 <button 
                   onClick={() => setView('menu')}
-                  className="absolute top-2 right-4 z-20 p-2 text-[#CDCDCD] hover:text-white"
+                  className="absolute top-[68px] right-6 z-20 p-2 text-[#CDCDCD] hover:text-white"
                 >
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -126,7 +126,7 @@ const App: React.FC = () => {
               </div>
             ) : (
               <>
-                {/* Dashboard View (the old main list) */}
+                {/* Dashboard View */}
                 <div className="px-8 pt-10 flex justify-between items-end">
                   <Logo />
                   <button 
@@ -167,8 +167,8 @@ const App: React.FC = () => {
               </>
             )}
 
-            {/* Home Indicator */}
-            <div className="absolute bottom-[8px] left-1/2 -translate-x-1/2 w-[140px] h-[5px] bg-white rounded-full z-20"></div>
+            {/* Home Indicator - Sticky at bottom of frame */}
+            <div className="sticky bottom-[8px] mx-auto w-[140px] h-[5px] bg-white rounded-full z-50 mt-4 mb-2 flex-shrink-0"></div>
 
             {/* Cart Modal / Drawer */}
             {showCart && <Cart onClose={closeCart} />}
