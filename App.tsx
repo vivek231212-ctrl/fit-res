@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Logo from './components/Logo.tsx';
 import DetailBranding from './components/DetailBranding.tsx';
@@ -58,8 +57,8 @@ const App: React.FC = () => {
 
   if (isSplashing) {
     return (
-      <div className="flex justify-center items-center h-screen bg-black">
-        <div className="relative w-full max-w-[390px] h-full max-h-[844px] overflow-hidden shadow-2xl">
+      <div className="flex justify-center items-center h-[100dvh] w-full bg-black overflow-hidden">
+        <div className="relative w-full max-w-[390px] h-full max-h-[844px] overflow-hidden">
           <DetailBranding />
         </div>
       </div>
@@ -67,9 +66,9 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen bg-black overflow-hidden">
+    <div className="flex justify-center items-center h-[100dvh] w-full bg-black overflow-hidden">
       {/* Mobile Frame - Responsive Wrapper */}
-      <div className="relative w-full max-w-[390px] h-full max-h-[844px] bg-[#0F0E11] sm:rounded-[30px] overflow-hidden shadow-2xl flex flex-col border-x border-white/5 transition-all duration-300">
+      <div className="relative w-full max-w-[390px] h-full max-h-[844px] bg-[#0F0E11] sm:rounded-[30px] overflow-hidden shadow-2xl flex flex-col transition-all duration-300">
         
         {view === 'menu' ? (
           <Menu onNavigate={(v) => handleMenuNavigate(v as any)} onClose={() => setView('home')} />
@@ -102,7 +101,7 @@ const App: React.FC = () => {
               <div className="flex-1 animate-in slide-in-from-bottom duration-500 relative">
                 <button 
                   onClick={() => setView('menu')}
-                  className="absolute top-8 right-6 z-40 p-2 bg-black/40 rounded-full text-white hover:bg-black/60 transition-colors"
+                  className="absolute top-4 right-6 z-40 p-2 bg-black/40 rounded-full text-white hover:bg-black/60 transition-colors"
                 >
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M18 6L6 18M6 6l12 12" />
